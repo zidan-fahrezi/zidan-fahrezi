@@ -1,0 +1,247 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(FlutterApp());
+}
+
+class FlutterApp extends StatelessWidget {
+  final ValueNotifier<bool> _dark = ValueNotifier<bool>(true);
+  final ValueNotifier<double> _widthFactor = ValueNotifier<double>(1.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home: ValueListenableBuilder<bool>(
+            valueListenable: _dark,
+            builder: (context, color, child) {
+              return ValueListenableBuilder<double>(
+                valueListenable: _widthFactor,
+                builder: (context, factor, child) {
+                  return Scaffold(
+                      backgroundColor: _dark.value ? Colors.black : Colors.white,
+                      appBar: AppBar(
+                        actions: [
+                          Switch(
+                            value: _dark.value,
+                            onChanged: (value) {
+                              _dark.value = value;
+                            },
+                          ),
+                          DropdownButton<double>(
+                            value: _widthFactor.value,
+                            onChanged: (value) {
+                              _widthFactor.value = value!;
+                            },
+                            items: [
+                              DropdownMenuItem<double>(
+                                value: 0.5,
+                                child: Text('Size: 50%'),
+                              ),
+                              DropdownMenuItem<double>(
+                                value: 0.75,
+                                child: Text('Size: 75%'),
+                              ),
+                              DropdownMenuItem<double>(
+                                value: 1.0,
+                                child: Text('Size: 100%'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      body: SingleChildScrollView(
+                        child: Center(
+                            child: Container(
+                          width: MediaQuery.of(context).size.width * _widthFactor.value,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AndroidLarge1(),
+                            ],
+                          ),
+                        )),
+                      ));
+                },
+              );
+            }));
+  }
+}
+
+class AndroidLarge1 extends StatefulWidget {
+  @override
+  _AndroidLarge1State createState() => _AndroidLarge1State();
+}
+
+class _AndroidLarge1State extends State<AndroidLarge1> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 360,
+          height: 800,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(color: Colors.white),
+          child: Stack(
+            children: [
+              Positioned(
+                left: 39,
+                top: 230,
+                child: Text(
+                  'Masuk ',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 32,
+                    fontFamily: 'Poppins',
+                    height: 1.2,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 39,
+                top: 278,
+                child: Text(
+                  'Login Untuk Lihat Akun Kamu Yuk!!',
+                  style: TextStyle(
+                    color: Color(0xFF8C8989),
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                    height: 1.2,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 39,
+                top: 313,
+                child: Text(
+                  'Email',
+                  style: TextStyle(
+                    color: Color(0xFF594D4D),
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                    height: 1.2,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 28,
+                top: 340,
+                child: Container(
+                  width: 304,
+                  height: 49,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 1,
+                        offset: Offset(0, 0),
+                        spreadRadius: 1,
+                      )
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Email',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 39,
+                top: 400,
+                child: Text(
+                  'Password',
+                  style: TextStyle(
+                    color: Color(0xFF594D4D),
+                    fontSize: 13,
+                    fontFamily: 'Poppins',
+                    height: 1.2,
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 28,
+                top: 420,
+                child: Container(
+                  width: 304,
+                  height: 49,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 1,
+                        offset: Offset(0, 0),
+                        spreadRadius: 1,
+                      )
+                    ],
+                  ),
+                  child: TextField(
+                    controller: _passwordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Password',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 136,
+                top: 480,
+                child: Container(
+                  width: 88,
+                  height: 40,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 1,
+                        offset: Offset(0, 0),
+                        spreadRadius: 1,
+                      )
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                        color: Color(0xFF594D4D),
+                        fontSize: 13,
+                        fontFamily: 'Poppins',
+                        height: 1.2,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20), // Jarak antara tombol "Login" dan container di bawahnya
+      ],
+    );
+  }
+}
