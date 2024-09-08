@@ -1,0 +1,247 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(FlutterApp());
+}
+
+class FlutterApp extends StatelessWidget {
+  final ValueNotifier<bool> _dark = ValueNotifier<bool>(true);
+  final ValueNotifier<double> _widthFactor = ValueNotifier<double>(1.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ValueListenableBuilder<bool>(
+        valueListenable: _dark,
+        builder: (context, color, child) {
+          return ValueListenableBuilder<double>(
+            valueListenable: _widthFactor,
+            builder: (context, factor, child) {
+              return Scaffold(
+                backgroundColor: _dark.value ? Colors.black : Colors.white,
+                appBar: AppBar(
+                  actions: [
+                    Switch(
+                      value: _dark.value,
+                      onChanged: (value) {
+                        _dark.value = value;
+                      },
+                    ),
+                    DropdownButton<double>(
+                      value: _widthFactor.value,
+                      onChanged: (value) {
+                        _widthFactor.value = value!;
+                      },
+                      items: [
+                        DropdownMenuItem<double>(
+                          value: 0.5,
+                          child: Text('Size: 50%'),
+                        ),
+                        DropdownMenuItem<double>(
+                          value: 0.75,
+                          child: Text('Size: 75%'),
+                        ),
+                        DropdownMenuItem<double>(
+                          value: 1.0,
+                          child: Text('Size: 100%'),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                body: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * _widthFactor.value,
+                    child: AndroidLarge3(),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AndroidLarge3 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        color: Colors.white, // Background color of the entire container
+        child: Column(
+          children: [
+            Container(
+              width: 360,
+              height: 800,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(color: Colors.white),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 0.0,
+                    top: 0.0,
+                    child: Container(
+                      width: 360.0,
+                      height: 800.0,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment(0.00, -1.00),
+                          end: Alignment(0, 1),
+                          colors: [Color(0xFF93A5CF), Color(0xFFBAC8E0)],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 142.0,
+                    top: 33.0,
+                    child: Text(
+                      'Profile',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 117.0,
+                    top: 245.0,
+                    child: Text(
+                      'Username',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 14.0,
+                    top: 36.0,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back, color: Colors.white, size: 30),
+                      onPressed: () {
+                        // Logic untuk kembali bisa ditambahkan di sini.
+                      },
+                    ),
+                  ),
+                  Positioned(
+                    left: 126.0,
+                    top: 121.0,
+                    child: Container(
+                      width: 108.0,
+                      height: 108.0,
+                      decoration: ShapeDecoration(
+                        color: Colors.white,
+                        shape: OvalBorder(),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          Icons.person,
+                          size: 90,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 30.0,
+                    top: 306.0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        LabelWithTextField(label: 'Nama:'),
+                        LabelWithTextField(label: 'TTL:'),
+                        LabelWithTextField(label: 'Alamat:'),
+                        LabelWithTextField(label: 'No HP:'),
+                        LabelWithTextField(label: 'Umur:'),
+                        SizedBox(height: 20), // Space sebelum deskripsi
+                        Text(
+                          'Deskripsi:',
+                          style: TextStyle(
+                            color: Color(0xFF93A5CF),
+                            fontSize: 20,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        // Text field Deskripsi yang lebih besar
+                        Container(
+                          width: 302.0,
+                          height: 100.0,
+                          margin: EdgeInsets.only(top: 8.0),
+                          padding: EdgeInsets.symmetric(horizontal: 12.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Color(0xFF93A5CF),
+                            ),
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          child: TextFormField(
+                            maxLines: null,
+                            expands: true,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Masukkan deskripsi...',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LabelWithTextField extends StatelessWidget {
+  final String label;
+
+  LabelWithTextField({required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: Colors.white, // Warna teks diubah menjadi putih
+            fontSize: 20,
+            fontFamily: 'Poppins',
+          ),
+        ),
+        Container(
+          width: 302.0,
+          margin: EdgeInsets.only(top: 8.0, bottom: 16.0),
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4.0,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: TextFormField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Masukkan ${label.toLowerCase()}...',
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
